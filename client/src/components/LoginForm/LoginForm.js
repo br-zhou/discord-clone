@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./LoginForm.module.css";
 import { useState } from "react";
 
 const LoginForm = () => {
   const [mode, setMode] = useState("log in");
+  const navigate = useNavigate();
 
   const toggleModeHandler = () => {
     setMode((mode) => (mode === "log in" ? "register" : "log in"));
@@ -11,8 +12,10 @@ const LoginForm = () => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
+
     console.log(mode);
-  }
+    navigate("/app");
+  };
 
   return (
     <div className={classes.login_page}>

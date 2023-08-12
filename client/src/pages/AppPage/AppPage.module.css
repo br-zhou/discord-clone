@@ -1,0 +1,21 @@
+.page_container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: purple;
+}
+
+.sidebar {
+  background-color: pink;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat {
+  flex-grow: 1;
+}
+
+.users {
+  background-color: gray;
+  width: 200px;
+}
