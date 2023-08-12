@@ -1,13 +1,17 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./global.css";
+import LoginPage from "./pages/LoginPage/LoginPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LoginPage />,
+    children: [{}],
+  },
+]);
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Discord Clone</h1>
-      </header>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
