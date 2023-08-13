@@ -27,10 +27,16 @@
   background-color: #1a1b1d;
 }
 
+.server_title > h3 {
+  margin: 15px 20px;
+}
+
 .users {
   background-color: #3a404d;
 }
 
 .users > h3 {
   margin: 12px;
+  font-size: 16px;
+  padding: 5px 0;
 }

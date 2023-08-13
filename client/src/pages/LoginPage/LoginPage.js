@@ -5,7 +5,7 @@ import { useStore } from "../../hooks/useStore";
 
 const LoginPage = () => {
   const socket = useStocket();
-  const [store, setStore] = useStore();
+  const [, setStore] = useStore();
   const navigate = useNavigate();
 
   const loginSuccessHandler = ({ username, room }) => {

@@ -2,9 +2,12 @@ import ChatBox from "../../components/ChatBox/ChatBox";
 import Member from "../../components/Member/Member";
 import Message from "../../components/Message/Message";
 import RoomIcon from "../../components/RoomIcon/RoomIcon";
+import { useStore } from "../../hooks/useStore";
 import classes from "./AppPage.module.css";
 
 const AppPage = () => {
+  const [store] = useStore();
+
   return (
     <div className={classes.page_container}>
       <div className={classes.sidebar}>
@@ -16,7 +19,7 @@ const AppPage = () => {
 
       <div className={classes.main_container}>
         <div className={classes.server_title}>
-          <h2>Server Title</h2>
+          <h3>{store.room}</h3>
         </div>
 
         <div className={classes.chat_container}>
@@ -37,7 +40,7 @@ const AppPage = () => {
 
       <div className={classes.users}>
         <h3>Members:</h3>
-        <Member />
+        <Member name="Test"/>
         <Member />
         <Member />
         <Member />
