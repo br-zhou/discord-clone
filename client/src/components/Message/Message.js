@@ -1,6 +1,6 @@
-import classes from "./Member.module.css";
+import classes from "./Message.module.css";
 
-const Member = (props) => {
+const Message = (props) => {
   return (
     <div className={classes.container}>
       <img
@@ -8,9 +8,12 @@ const Member = (props) => {
         src="https://cdn.discordapp.com/attachments/803481006446870598/1133930696562454569/export-i.gif"
         alt=""
       />
-      <h4 className={classes.name}>{props.name || "Guest"}</h4>
+      <div>
+        <h4 className={classes.name}>{props.name || "Guest"}</h4>
+        <p>{props.msg}</p>
+      </div>
     </div>
   );
 };
 
-export default Member;
+export default Message;
