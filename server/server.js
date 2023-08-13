@@ -1,5 +1,6 @@
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const Room = require("./Room.js");
 
 const PORT = 7999 || process.env.PORT;
 const httpServer = createServer();
@@ -10,37 +11,15 @@ const io = new Server(httpServer, {
   },
 });
 
-class Room {
-  constructor() {
-    this.users = {};
-  }
-
-  addUser(socketId) {
-    this.users[socketId] = true;
-    console.log(`${socketId} added!`);
-  }
-
-  removeUser(socketId) {
-    delete this.users[socketId];
-    console.log(`${socketId} removed!`);
-  }
-}
-
-const room = new Room();
-
 io.on("connection", (socket) => {
   const id = socket.id;
-  room.addUser(id);
 
-  // Broadcast Event
-  socket.broadcast.emit("addUser", { id, data: room.users[id] });
-
-  socket.emit("getInitialData", {
-    users: room.users,
+  socket.on("join-room", (room) => {
+    socket.join(room);
+    console.log(`${id} joined room ${room}!`);
   });
 
   socket.on("disconnect", (reason) => {
-    room.removeUser(id);
     io.emit("removePlayer", id);
   });
 });

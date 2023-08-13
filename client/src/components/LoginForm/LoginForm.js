@@ -1,10 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import classes from "./LoginForm.module.css";
-import { useState } from "react";
+import { createRef, useState } from "react";
 
-const LoginForm = () => {
+const LoginForm = (props) => {
   const [mode, setMode] = useState("log in");
-  const navigate = useNavigate();
+
+  const usernameRef = createRef();
+  const roomRef = createRef();
 
   const toggleModeHandler = () => {
     setMode((mode) => (mode === "log in" ? "register" : "log in"));
@@ -13,16 +15,19 @@ const LoginForm = () => {
   const onFormSubmit = (event) => {
     event.preventDefault();
 
-    console.log(mode);
-    navigate("/app");
+    props.onSuccess({
+      username: usernameRef.current.value || "Guest",
+      room: roomRef.current.value || "General",
+    });
   };
 
   return (
     <div className={classes.login_page}>
       <div className={classes.form}>
         <form className={classes.register_form} onSubmit={onFormSubmit}>
-          <input type="text" placeholder="username" />
-          <input type="password" placeholder="password" />
+          <input type="text" placeholder="username" ref={usernameRef} />
+          <input type="text" placeholder="room" ref={roomRef} />
+          {/* <input type="password" placeholder="password" /> */}
           <button>{mode}</button>
           <p className={classes.message}>
             New?{" "}

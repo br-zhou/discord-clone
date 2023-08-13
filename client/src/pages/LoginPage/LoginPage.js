@@ -1,9 +1,21 @@
+import { useNavigate } from "react-router-dom";
 import LoginForm from "../../components/LoginForm/LoginForm";
+import { useStocket } from "../../hooks/useSocket";
+import { useStore } from "../../hooks/useStore";
 
 const LoginPage = () => {
-  return (
-    <LoginForm />
-  );
+  const socket = useStocket();
+  const [store, setStore] = useStore();
+  const navigate = useNavigate();
+
+  const loginSuccessHandler = ({ username, room }) => {
+    socket.emit("join-room", room);
+    setStore("username", username);
+    setStore("room", room);
+    navigate("/app");
+  };
+
+  return <LoginForm onSuccess={loginSuccessHandler} />;
 };
 
 export default LoginPage;
