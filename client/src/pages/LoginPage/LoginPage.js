@@ -12,7 +12,7 @@ const LoginPage = () => {
     socket.emit("join-room", room);
     setStore("username", username);
     setStore("room", room);
-    navigate("/app");
+    navigate(`/room/${room}`);
   };
 
   return <LoginForm onSuccess={loginSuccessHandler} />;

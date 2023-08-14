@@ -19,6 +19,11 @@ io.on("connection", (socket) => {
     console.log(`${id} joined room ${room}!`);
   });
 
+  socket.on("send-message", ({ message, room }) => {
+    io.in(room).emit("new-message", { id: id, msg: message });
+    console.log(`${id} sent new message in ${room}`);
+  });
+
   socket.on("disconnect", (reason) => {
     io.emit("removePlayer", id);
   });

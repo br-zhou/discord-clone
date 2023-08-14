@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 let globalStore = {
-  username: "Guest",
-  room: "General",
+  username: null,
+  room: null,
 };
 
 let listeners = [];

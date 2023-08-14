@@ -1,12 +1,28 @@
+import { useEffect } from "react";
 import ChatBox from "../../components/ChatBox/ChatBox";
 import Member from "../../components/Member/Member";
 import Message from "../../components/Message/Message";
 import RoomIcon from "../../components/RoomIcon/RoomIcon";
+import { useStocket } from "../../hooks/useSocket";
 import { useStore } from "../../hooks/useStore";
 import classes from "./AppPage.module.css";
 
 const AppPage = () => {
   const [store] = useStore();
+  const socket = useStocket();
+
+  const sendMessageHandler = async (message) => {
+    const data = {
+      message,
+      room: store.room,
+    };
+
+    await socket.emit("send-message", data);
+    console.log("sent!")
+  };
+
+  useEffect(() => {
+  }, [socket]);
 
   return (
     <div className={classes.page_container}>
@@ -34,13 +50,13 @@ const AppPage = () => {
           <Message msg="Lorem ipsum dolo" />
         </div>
         <div>
-          <ChatBox />
+          <ChatBox sendMessage={sendMessageHandler} />
         </div>
       </div>
 
       <div className={classes.users}>
         <h3>Members:</h3>
-        <Member name="Test"/>
+        <Member name="Test" />
         <Member />
         <Member />
         <Member />

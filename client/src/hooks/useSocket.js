@@ -6,6 +6,10 @@ socket.on("connect", () => {
   console.log("Connection Successful!")
 });
 
+socket.on("new-message", (data) => {
+  console.log(data);
+});
+
 export const useStocket = () => {
   return socket;
 };
