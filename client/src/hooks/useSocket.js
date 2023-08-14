@@ -1,4 +1,5 @@
 import io from "socket.io-client";
+import { useStore } from "./useStore";
 
 const socket = io.connect("http://localhost:7999");
 
@@ -11,5 +12,7 @@ socket.on("new-message", (data) => {
 });
 
 export const useStocket = () => {
+  const [store, setStore] = useStore();
+
   return socket;
 };
