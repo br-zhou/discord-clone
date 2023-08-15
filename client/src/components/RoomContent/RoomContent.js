@@ -28,16 +28,11 @@ const RoomContent = () => {
   };
 
   const newMsgHandler = (data) => {
+    console.log(data);
     setMessages((msgs) => [...msgs, data]);
   };
 
   const newUserHandler = (data) => {
-    console.log("new user!!");
-    setMessages((msgs) => [
-      ...msgs,
-      { server: true, msg: `${data.username} joined the server!` }, // todo generate unique key
-    ]);
-
     setUsers((users) => [...users, data]);
   };
 
@@ -84,7 +79,6 @@ const RoomContent = () => {
   };
 
   const usersGenerator = (users) => {
-    console.log(users);
     return users.map(({ id, username }) => <Member name={username} key={id} />);
   };
 

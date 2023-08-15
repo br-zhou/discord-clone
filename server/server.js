@@ -23,7 +23,6 @@ io.on("connection", (socket) => {
     console.log(`${id} joined room ${room}!`);
 
     if (callback) {
-      
       const roomMembersSet = io.sockets.adapter.rooms.get(room);
       const roomMembersArr = Array.from(roomMembersSet || new Set());
 
@@ -36,6 +35,11 @@ io.on("connection", (socket) => {
 
     socket.join(room);
     io.in(room).emit("new-user", { id: id, username: idToUsername[id] });
+    io.in(room).emit("new-message", {
+      msg: `${idToUsername[id]} joined the room!`,
+      server: true,
+      key: uuidv4(),
+    });
   });
 
   socket.on("send-message", ({ message, room, username }) => {
@@ -52,10 +56,18 @@ io.on("connection", (socket) => {
     io.in(room).emit("user-leave", id);
   });
 
-  socket.on("disconnect", (reason) => {
-    io.emit("user-leave", id); // todo will cause errors in users in other rooms
+  socket.on("disconnecting", (reason) => {
+    const room = Array.from(socket.rooms)[1];
+
+    io.in(room).emit("user-leave", id);
+
+    io.in(room).emit("new-message", {
+      msg: `${idToUsername[id]} left the room.`,
+      server: true,
+      key: uuidv4(),
+    });
+
     delete idToUsername[id];
-    console.log(Object.keys(idToUsername));
   });
 });
 
