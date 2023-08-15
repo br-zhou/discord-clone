@@ -19,18 +19,23 @@ io.on("connection", (socket) => {
 
   socket.on("join-room", function ({ room, username }, callback) {
     idToUsername[id] = username;
-    socket.join(room);
+
     console.log(`${id} joined room ${room}!`);
 
-    const roomMembers = Array.from(io.sockets.adapter.rooms.get(room));
+    if (callback) {
+      
+      const roomMembersSet = io.sockets.adapter.rooms.get(room);
+      const roomMembersArr = Array.from(roomMembersSet || new Set());
 
-    const usersData = [];
-    for (const userId of roomMembers) {
-      usersData.push({ id: userId, username: idToUsername[userId] });
+      const usersData = [];
+      for (const userId of roomMembersArr) {
+        usersData.push({ id: userId, username: idToUsername[userId] });
+      }
+      callback(usersData);
     }
 
-    if (callback) callback(usersData);
-    socket.to(room).emit("new-user", { id: id, username: idToUsername[id] });
+    socket.join(room);
+    io.in(room).emit("new-user", { id: id, username: idToUsername[id] });
   });
 
   socket.on("send-message", ({ message, room, username }) => {

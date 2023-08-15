@@ -28,14 +28,17 @@ const RoomContent = () => {
   };
 
   const newMsgHandler = (data) => {
-    console.log(data);
     setMessages((msgs) => [...msgs, data]);
-    console.log(messages);
   };
 
-  const newUserHandler = (id) => {
+  const newUserHandler = (data) => {
     console.log("new user!!");
-    setUsers((users) => [...users, id]);
+    setMessages((msgs) => [
+      ...msgs,
+      { server: true, msg: `${data.username} joined the server!` }, // todo generate unique key
+    ]);
+
+    setUsers((users) => [...users, data]);
   };
 
   const userLeaveHandler = (id) => {
@@ -101,7 +104,7 @@ const RoomContent = () => {
       </div>
 
       <div className={classes.users}>
-        <h3>Members:</h3>
+        <h3>Online:</h3>
         {usersGenerator(users)}
       </div>
     </>

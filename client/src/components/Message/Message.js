@@ -1,6 +1,14 @@
 import classes from "./Message.module.css";
 
 const Message = (props) => {
+  if (props.server) {
+    return (
+      <div className={classes.container}>
+        <p className={classes.msg}>{props.msg}</p>
+      </div>
+    );
+  }
+  
   return (
     <div className={classes.container}>
       <img
