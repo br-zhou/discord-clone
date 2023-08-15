@@ -52,7 +52,7 @@ const RoomPage = () => {
   };
 
   const onUnmountHandler = () => {
-    socket.emit("leave-room", store.room);
+    socket.emit("leave-room", room);
     socket.removeListener("new-message", newMsgHandler);
     socket.removeListener("new-user", newUserHandler);
     socket.removeListener("user-leave", userLeaveHandler);

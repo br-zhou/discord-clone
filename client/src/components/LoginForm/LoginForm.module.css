@@ -51,9 +51,12 @@
   color: #b3b3b3;
   font-size: 14px;
 }
-.form .message a {
+.form .message a,
+.form .message span {
   color: #4caf50;
   text-decoration: none;
+  user-select: none;
+  cursor: pointer;
 }
 .form .register-form {
   display: none;
