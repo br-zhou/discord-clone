@@ -12,17 +12,25 @@ const io = new Server(httpServer, {
   },
 });
 
+const idToUsername = {};
+
 io.on("connection", (socket) => {
   const id = socket.id;
 
-  socket.on("join-room", function (room, callback) {
+  socket.on("join-room", function ({ room, username }, callback) {
+    idToUsername[id] = username;
     socket.join(room);
     console.log(`${id} joined room ${room}!`);
 
     const roomMembers = Array.from(io.sockets.adapter.rooms.get(room));
-    const response = { users: roomMembers };
-    if (callback) callback(response);
-    socket.to(room).emit("new-user", id);
+
+    const usersData = [];
+    for (const userId of roomMembers) {
+      usersData.push({ id: userId, username: idToUsername[userId] });
+    }
+
+    if (callback) callback(usersData);
+    socket.to(room).emit("new-user", { id: id, username: idToUsername[id] });
   });
 
   socket.on("send-message", ({ message, room, username }) => {
@@ -34,8 +42,15 @@ io.on("connection", (socket) => {
     console.log(`${username} sent new message in ${room}`);
   });
 
+  socket.on("leave-room", (room) => {
+    socket.leave(room);
+    io.in(room).emit("user-leave", id);
+  });
+
   socket.on("disconnect", (reason) => {
-    io.emit("user-leave", id);
+    io.emit("user-leave", id); // todo will cause errors in users in other rooms
+    delete idToUsername[id];
+    console.log(Object.keys(idToUsername));
   });
 });
 
