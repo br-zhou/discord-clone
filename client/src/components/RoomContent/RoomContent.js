@@ -34,12 +34,18 @@ const RoomContent = () => {
   };
 
   const newUserHandler = (id) => {
+    console.log("new user!!");
     setUsers((users) => [...users, id]);
+  };
+
+  const userLeaveHandler = (id) => {
+    setUsers((users) => users.filter((user) => user !== id));
   };
 
   const onMount = () => {
     socket.on("new-message", newMsgHandler);
     socket.on("new-user", newUserHandler);
+    socket.on("user-leave", userLeaveHandler);
 
     if (!store.room) {
       setStore("username", "Guest");
@@ -55,6 +61,8 @@ const RoomContent = () => {
   const onUnmountHandler = () => {
     console.log("bye!");
     socket.removeListener("new-message", newMsgHandler);
+    socket.removeListener("new-user", newUserHandler);
+    socket.removeListener("user-leave", userLeaveHandler);
   };
 
   useEffect(onMount, []);

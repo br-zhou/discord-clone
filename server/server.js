@@ -35,7 +35,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", (reason) => {
-    io.emit("removePlayer", id);
+    io.emit("user-leave", id);
   });
 });
 
