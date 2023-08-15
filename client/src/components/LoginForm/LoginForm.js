@@ -2,14 +2,19 @@ import { Link } from "react-router-dom";
 import classes from "./LoginForm.module.css";
 import { createRef, useState } from "react";
 
+const STATE = {
+  LOGIN: "log in",
+  SIGNUP: "sign up",
+};
+
 const LoginForm = (props) => {
-  const [mode, setMode] = useState("log in");
+  const [mode, setMode] = useState(STATE.LOGIN);
 
   const usernameRef = createRef();
   const roomRef = createRef();
 
   const toggleModeHandler = () => {
-    setMode((mode) => (mode === "log in" ? "register" : "log in"));
+    setMode((mode) => (mode === STATE.LOGIN ? STATE.SIGNUP : STATE.LOGIN));
   };
 
   const onFormSubmit = (event) => {
@@ -24,6 +29,7 @@ const LoginForm = (props) => {
   return (
     <div className={classes.login_page}>
       <div className={classes.form}>
+        <h1 className={classes.title}>{mode}</h1>
         <form className={classes.register_form} onSubmit={onFormSubmit}>
           <input type="text" placeholder="username" ref={usernameRef} />
           <input type="text" placeholder="room" ref={roomRef} />
@@ -32,9 +38,9 @@ const LoginForm = (props) => {
           <p className={classes.message}>
             New?{" "}
             <Link onClick={toggleModeHandler}>
-              {mode === "log in" ? "register" : "log in"}
+              {mode === STATE.LOGIN ? STATE.SIGNUP : STATE.LOGIN }
             </Link>{" "}
-            or join as a <Link>Guest</Link>
+            or join as a <Link to="/room/General">Guest</Link>
           </p>
         </form>
       </div>
