@@ -33,22 +33,28 @@ const RoomContent = () => {
     console.log(messages);
   };
 
+  const newUserHandler = (id) => {
+    setUsers((users) => [...users, id]);
+  };
+
   const onMount = () => {
     socket.on("new-message", newMsgHandler);
-    
+    socket.on("new-user", newUserHandler);
+
     if (!store.room) {
-      const room = params.roomId;
       setStore("username", "Guest");
       setStore("room", room);
-      socket.emit("join-room", room, (roomData) => {
-        console.log(roomData);
-      });
     }
+
+    socket.emit("join-room", room, (response) => {
+      const users = response.users;
+      setUsers(users);
+    });
   };
 
   const onUnmountHandler = () => {
+    console.log("bye!");
     socket.removeListener("new-message", newMsgHandler);
-    socket.emit("leave-room", room);
   };
 
   useEffect(onMount, []);
@@ -59,10 +65,7 @@ const RoomContent = () => {
   };
 
   const usersGenerator = (users) => {
-    console.log(users);
-    return users.map((userData) => (
-      <Member name={userData.id} key={userData.id} />
-    ));
+    return users.map((id) => <Member name={id} key={id} />);
   };
 
   return (

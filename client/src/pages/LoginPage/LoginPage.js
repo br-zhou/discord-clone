@@ -9,7 +9,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const loginSuccessHandler = ({ username, room }) => {
-    socket.emit("join-room", room);
     setStore("username", username);
     setStore("room", room);
     navigate(`/room/${room}`);

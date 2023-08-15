@@ -15,20 +15,14 @@ const io = new Server(httpServer, {
 io.on("connection", (socket) => {
   const id = socket.id;
 
-  socket.on("join-room", (room) => {
+  socket.on("join-room", function (room, callback) {
     socket.join(room);
     console.log(`${id} joined room ${room}!`);
 
-    const roomMembers = io.sockets.adapter.rooms.get(room);
-    // socket.to(room).emit("new-user", {
-    //   id: id,
-    // });
-    console.log(roomMembers);
-  });
-
-  socket.on("leave-room", (room) => {
-    socket.leave(room);
-    console.log(`${id} left room ${room}!`);
+    const roomMembers = Array.from(io.sockets.adapter.rooms.get(room));
+    const response = { users: roomMembers };
+    if (callback) callback(response);
+    socket.to(room).emit("new-user", id);
   });
 
   socket.on("send-message", ({ message, room, username }) => {

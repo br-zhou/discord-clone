@@ -1,6 +1,7 @@
 .container {
   display: flex;
   width: 250px;
+  overflow: hidden;
 }
 
 .container:hover {
