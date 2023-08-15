@@ -1,13 +1,13 @@
-import ChatBox from "../ChatBox/ChatBox";
-import Member from "../Member/Member";
-import Message from "../Message/Message";
+import ChatBox from "../../components/ChatBox/ChatBox";
+import Member from "../../components/Member/Member";
+import Message from "../../components/Message/Message";
 import { useParams } from "react-router-dom";
 import { useStocket } from "../../hooks/useSocket";
 import { useStore } from "../../hooks/useStore";
-import classes from "./RoomContent.module.css";
+import classes from "./RoomPage.module.css";
 import { useEffect, useState } from "react";
 
-const RoomContent = () => {
+const RoomPage = () => {
   const params = useParams();
   const room = params.roomId;
   const [store, setStore] = useStore();
@@ -28,7 +28,6 @@ const RoomContent = () => {
   };
 
   const newMsgHandler = (data) => {
-    console.log(data);
     setMessages((msgs) => [...msgs, data]);
   };
 
@@ -83,7 +82,7 @@ const RoomContent = () => {
   };
 
   return (
-    <>
+    <div className={classes.wrapper}>
       <div className={classes.main_container}>
         <div className={classes.server_title}>
           <h3>{store.room}</h3>
@@ -101,8 +100,8 @@ const RoomContent = () => {
         <h3>Online:</h3>
         {usersGenerator(users)}
       </div>
-    </>
+    </div>
   );
 };
 
-export default RoomContent;
+export default RoomPage;

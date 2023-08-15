@@ -28,3 +28,8 @@
   font-size: 16px;
   padding: 5px 0;
 }
+
+.wrapper {
+  display: flex;
+  width: 100%;
+}
