@@ -82,7 +82,8 @@ const RoomPage = () => {
     );
 
     setStore("room", room);
-  }, [params]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.roomId]);
 
   const messagesGenerator = (messages) => {
     return messages.map((msgData) => <Message {...msgData} />);
