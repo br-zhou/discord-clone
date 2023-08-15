@@ -9,8 +9,8 @@ const Message = (props) => {
         alt=""
       />
       <div>
-        <h4 className={classes.name}>{props.name || "Guest"}</h4>
-        <p>{props.msg}</p>
+        <h4 className={classes.name}>{props.username || "Guest"}</h4>
+        <p className={classes.msg}>{props.msg}</p>
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
 import classes from "./RoomIcon.module.css";
 
-const RoomIcon = () => {
+const RoomIcon = (props) => {
   return (
     <div className={classes.icon}>
-      <img src="" alt=""/>
+      {props.img && <img src={props.img} alt="" />}
     </div>
   );
 };

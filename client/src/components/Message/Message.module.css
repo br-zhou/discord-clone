@@ -13,11 +13,18 @@
   height: 36px;
   background-color: gray;
   border-radius: 50%;
-  margin: 5px 12px;
+  margin: 15px 12px;
   pointer-events: none;
 }
 
 .name {
   display: block;
-  margin: 12px 0;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.msg {
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 12px;
 }

@@ -5,3 +5,8 @@
   margin: 10px;
   border-radius: 25%;
 }
+
+.icon > img {
+  width: 100%;
+  height: 100%;
+}

@@ -22,8 +22,6 @@ const AppPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {});
-
   return (
     <div className={classes.page_container}>
       <div className={classes.sidebar}>
