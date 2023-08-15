@@ -44,18 +44,9 @@ const RoomPage = () => {
     socket.on("new-user", newUserHandler);
     socket.on("user-leave", userLeaveHandler);
 
-    if (!store.room) {
+    if (!store.username) {
       setStore("username", "Guest");
-      setStore("room", room);
     }
-
-    socket.emit(
-      "join-room",
-      { room, username: store.username || "Guest" },
-      (response) => {
-        setUsers(response);
-      }
-    );
 
     return onUnmountHandler;
   };
@@ -72,6 +63,26 @@ const RoomPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
+  useEffect(() => {
+    const prevRoom = store.room;
+
+    if (prevRoom !== room) {
+      setMessages([]);
+      setUsers([]);
+      socket.emit("leave-room", prevRoom);
+    }
+
+    socket.emit(
+      "join-room",
+      { room, username: store.username || "Guest"},
+      (response) => {
+        setUsers(response);
+      }
+    );
+
+    setStore("room", room);
+  }, [params]);
 
   const messagesGenerator = (messages) => {
     return messages.map((msgData) => <Message {...msgData} />);

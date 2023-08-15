@@ -10,7 +10,6 @@ const LoginPage = () => {
 
   const loginSuccessHandler = ({ username, room }) => {
     setStore("username", username);
-    setStore("room", room);
     navigate(`/room/${room}`);
   };
 
