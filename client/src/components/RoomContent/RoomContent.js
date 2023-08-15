@@ -59,6 +59,8 @@ const RoomContent = () => {
         setUsers(response);
       }
     );
+
+    return onUnmountHandler;
   };
 
   const onUnmountHandler = () => {
@@ -68,8 +70,11 @@ const RoomContent = () => {
     socket.removeListener("user-leave", userLeaveHandler);
   };
 
-  useEffect(onMount, []);
-  useEffect(() => onUnmountHandler, []);
+  useEffect(
+    onMount,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   const messagesGenerator = (messages) => {
     return messages.map((msgData) => <Message {...msgData} />);
