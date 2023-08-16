@@ -8,18 +8,23 @@ const LoginPage = () => {
 
   const formSubmitHandler = async ({ username, password, path }) => {
     const bodyJson = { username, password };
-    const response = await fetch(`http://localhost:7999/api/${path}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(bodyJson),
-    });
-    const data = await response.json();
-    console.log(data);
+    try {
+      const response = await fetch(`http://localhost:7999/api/${path}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(bodyJson),
+      });
+      const data = await response.json();
+      console.log(data);
 
-    // setStore("username", username);
-    // navigate(`/room/`);
+      // setStore("username", username);
+      // navigate(`/room/`);
+    } catch (error) {
+      console.log("an error occured");
+      // todo implement feedback
+    }
   };
 
   return <LoginForm onSubmit={formSubmitHandler} />;

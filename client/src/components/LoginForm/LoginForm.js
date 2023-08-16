@@ -7,9 +7,9 @@ export const STATE = Object.freeze({
   SIGNUP: "sign up",
 });
 
-const modeToPath = (mode) => {
-  if (mode === STATE.SIGNUP) return "new-user";
-  else return "user-login";
+const modeToApiPath = (mode) => {
+  if (mode === STATE.SIGNUP) return "register";
+  else return "login";
 };
 
 const LoginForm = (props) => {
@@ -26,7 +26,7 @@ const LoginForm = (props) => {
     event.preventDefault();
 
     props.onSubmit({
-      path: modeToPath(mode),
+      path: modeToApiPath(mode),
       username: usernameRef.current.value,
       password: passwordRef.current.value,
     });
