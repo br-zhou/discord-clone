@@ -1,9 +1,9 @@
 const { createServer } = require("http");
 const express = require("express");
 const { Server } = require("socket.io");
-const Room = require("./Room.js");
 const { v4: uuidv4 } = require("uuid");
 const cors = require("cors");
+const { router: apiRoutes } = require("./routes/api.js");
 
 const PORT = 7999 || process.env.PORT;
 
@@ -11,6 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use("/api", apiRoutes);
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
@@ -76,18 +77,6 @@ io.on("connection", (socket) => {
 
     delete idToUsername[id];
   });
-});
-
-app.post("/api/new-user", (req, res) => {
-  console.log(req.body);
-  const data = { secret: "posted!" };
-  res.status(200).send(data);
-});
-
-app.post("/api/user-login", (req, res) => {
-  console.log(req.body);
-  const data = { access: "ok" };
-  res.status(200).send(data);
 });
 
 httpServer.listen(PORT);
