@@ -13,13 +13,6 @@ const registerUser = async ({ username, password }) => {
   return createAccount({ username, hashedPassword });
 };
 
-const validateLoginInput = (req) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  if (!username || !password) return false;
-  else return { username, password };
-};
-
 registerUser({ username: "brian", password: "zhou" });
 
-module.exports = { registerUser, validateLoginInput, isValidCredentials };
+module.exports = { registerUser, isValidCredentials };

@@ -19,8 +19,12 @@ const LoginPage = () => {
       const data = await response.json();
       console.log(data);
 
-      // setStore("username", username);
-      // navigate(`/room/`);
+      const token = data.token;
+      
+      if (token) {
+        setStore("token", token);
+        navigate(`/room/General`);
+      }
     } catch (error) {
       console.log("an error occured");
       // todo implement feedback

@@ -1,10 +1,7 @@
 const express = require("express");
-const {
-  registerUser,
-  validateLoginInput,
-  isValidCredentials,
-} = require("../util/auth.js");
-
+const { registerUser, isValidCredentials } = require("../util/auth.js");
+const { validateLoginInput } = require("../util/inputParser.js");
+const { createToken, validateToken } = require("../util/webToken.js");
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
@@ -12,8 +9,9 @@ router.post("/register", async (req, res) => {
   if (!inputData) return;
 
   const isValid = await registerUser(inputData);
-  console.log(isValid);
-  const resData = { status: isValid };
+
+  const resData = { token: isValid && createToken(inputData.username) };
+
   res.status(isValid ? 200 : 403).send(resData);
 });
 
@@ -23,8 +21,7 @@ router.post("/login", async (req, res) => {
 
   const isValid = await isValidCredentials(inputData);
 
-  const resData = { token: isValid };
-
+  const resData = { token: isValid && createToken(inputData.username) };
   res.status(isValid ? 200 : 403).send(resData);
 });
 
