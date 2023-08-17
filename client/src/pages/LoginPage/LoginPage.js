@@ -11,13 +11,16 @@ const LoginPage = () => {
   const formSubmitHandler = async ({ username, password, path }) => {
     const bodyJson = { username, password };
     try {
-      const response = await fetch(`http://localhost:7999/api/${path}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(bodyJson),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/${path}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify(bodyJson),
+        }
+      );
       const data = await response.json();
 
       const token = data.token;
