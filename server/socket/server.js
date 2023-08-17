@@ -1,5 +1,6 @@
 const { Server } = require("socket.io");
 const { v4: uuidv4 } = require("uuid");
+const { validateToken, getTokenUsername } = require("../util/webToken");
 
 const createSocket = (server) => {
   const io = new Server(server, {
@@ -13,10 +14,11 @@ const createSocket = (server) => {
   io.on("connection", (socket) => {
     const id = socket.id;
 
-    socket.on("join-room", function ({ room, username }, callback) {
+    socket.on("join-room", function ({ room, token }, callback) {
+      const username = getTokenUsername(token, id);
       idToUsername[id] = username;
 
-      console.log(`${id} joined room ${room}!`);
+      console.log(`${username} joined room ${room}!`);
 
       if (callback) {
         const roomMembersSet = io.sockets.adapter.rooms.get(room);
@@ -30,24 +32,28 @@ const createSocket = (server) => {
       }
 
       socket.join(room);
-      io.in(room).emit("new-user", { id: id, username: idToUsername[id] });
+
+      io.in(room).emit("new-user", { id: id, username });
       io.in(room).emit("new-message", {
-        msg: `${idToUsername[id]} joined the room!`,
+        msg: `${username} joined the room!`,
         server: true,
         key: uuidv4(),
       });
     });
 
-    socket.on("send-message", ({ message, room, username }) => {
+    socket.on("send-message", ({ message, room, token }) => {
+      const username = getTokenUsername(token, id);
+
       io.in(room).emit("new-message", {
         msg: message,
-        username: username,
+        username,
         key: uuidv4(),
       });
       console.log(`${username} sent new message in ${room}`);
     });
 
     socket.on("leave-room", (room) => {
+      if (!room) return;
       socket.leave(room);
       io.in(room).emit("user-leave", id);
     });
@@ -57,17 +63,12 @@ const createSocket = (server) => {
 
       io.in(room).emit("user-leave", id);
 
-      io.in(room).emit("new-message", {
-        msg: `${idToUsername[id]} left the room.`,
-        server: true,
-        key: uuidv4(),
-      });
-
       delete idToUsername[id];
+      console.log(Object.keys(idToUsername));
     });
   });
 
-  console.log(`Socket server created!`);
+  console.log(`Socket created!`);
 };
 
 module.exports = createSocket;

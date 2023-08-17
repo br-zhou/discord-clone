@@ -3,7 +3,7 @@ const { createServer } = require("http");
 const express = require("express");
 const cors = require("cors");
 const { router: apiRoutes } = require("./routes/api.js");
-const createSocket = require("./socketServer.js");
+const createSocket = require("./socket/server.js");
 
 const PORT = 7999 || process.env.PORT;
 

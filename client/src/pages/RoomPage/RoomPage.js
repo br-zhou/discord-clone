@@ -12,6 +12,7 @@ const RoomPage = () => {
   const room = params.roomId;
   const [store, setStore] = useStore();
   const socket = useStocket();
+  const token = store.token;
 
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
@@ -20,8 +21,10 @@ const RoomPage = () => {
     const data = {
       message,
       room: room,
-      username: store.username,
+      token,
     };
+
+    console.log(data);
 
     await socket.emit("send-message", data);
     console.log("sent!");
@@ -73,13 +76,9 @@ const RoomPage = () => {
       socket.emit("leave-room", prevRoom);
     }
 
-    socket.emit(
-      "join-room",
-      { room, username: store.username || "Guest"},
-      (response) => {
-        setUsers(response);
-      }
-    );
+    socket.emit("join-room", { room, token }, (response) => {
+      setUsers(response);
+    });
 
     setStore("room", room);
     // eslint-disable-next-line react-hooks/exhaustive-deps
