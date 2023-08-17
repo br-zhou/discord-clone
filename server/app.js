@@ -5,7 +5,7 @@ const cors = require("cors");
 const { router: apiRoutes } = require("./routes/api.js");
 const createSocket = require("./socket/server.js");
 
-const PORT = 7999 || process.env.PORT;
+const PORT = process.env.PORT;
 
 const app = express();
 app.use(cors());
