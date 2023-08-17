@@ -1,11 +1,12 @@
 import ChatBox from "../../components/ChatBox/ChatBox";
-import Member from "../../components/Member/Member";
 import Message from "../../components/Message/Message";
 import { useParams } from "react-router-dom";
 import { useStocket } from "../../hooks/useSocket";
 import { useStore } from "../../hooks/useStore";
 import classes from "./RoomPage.module.css";
 import { useEffect, useRef, useState } from "react";
+import UsersList from "../../components/UsersList/UsersList";
+import LogoutButton from "../../components/LogoutButton/LogoutButton";
 
 const RoomPage = () => {
   const params = useParams();
@@ -93,10 +94,6 @@ const RoomPage = () => {
     return messages.map((msgData) => <Message {...msgData} />);
   };
 
-  const usersGenerator = (users) => {
-    return users.map(({ id, username }) => <Member name={username} key={id} />);
-  };
-
   return (
     <div className={classes.wrapper}>
       <div className={classes.main_container}>
@@ -113,9 +110,9 @@ const RoomPage = () => {
         </div>
       </div>
 
-      <div className={classes.users}>
-        <h3>Online:</h3>
-        {usersGenerator(users)}
+      <div className={classes.right_section_container}>
+        <UsersList data={users} />
+        <LogoutButton />
       </div>
     </div>
   );

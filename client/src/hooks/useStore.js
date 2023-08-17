@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 let globalStore = {
   username: null,
   room: null,
-  token: null,
+  token: localStorage.getItem("token"),
 };
 
 let listeners = [];

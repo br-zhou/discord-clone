@@ -1,0 +1,10 @@
+.users {
+  background-color: #3a404d;
+  flex: 1;
+}
+
+.users > h3 {
+  margin: 12px;
+  font-size: 16px;
+  padding: 5px 0;
+}
