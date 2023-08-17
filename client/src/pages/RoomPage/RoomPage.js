@@ -5,11 +5,12 @@ import { useParams } from "react-router-dom";
 import { useStocket } from "../../hooks/useSocket";
 import { useStore } from "../../hooks/useStore";
 import classes from "./RoomPage.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const RoomPage = () => {
   const params = useParams();
   const room = params.roomId;
+  const chatBottomRef = useRef();
   const [store, setStore] = useStore();
   const socket = useStocket();
   const token = store.token;
@@ -68,6 +69,10 @@ const RoomPage = () => {
   );
 
   useEffect(() => {
+    chatBottomRef.current.scrollIntoView();
+  }, [messages]);
+
+  useEffect(() => {
     const prevRoom = store.room;
 
     if (prevRoom !== room) {
@@ -100,7 +105,8 @@ const RoomPage = () => {
         </div>
 
         <div className={classes.chat_container}>
-          {messagesGenerator(messages)}
+          <div>{messagesGenerator(messages)}</div>
+          <span ref={chatBottomRef}></span>
         </div>
         <div>
           <ChatBox sendMessage={sendMessageHandler} />

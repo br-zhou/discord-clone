@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import { useStore } from "../../hooks/useStore";
-import { useEffect } from "react";
 
 const APP_PAGE = "/room/General";
 
