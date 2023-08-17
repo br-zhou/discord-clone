@@ -26,8 +26,6 @@ const RoomPage = () => {
       token,
     };
 
-    console.log(data);
-
     await socket.emit("send-message", data);
     console.log("sent!");
   };

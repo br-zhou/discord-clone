@@ -19,7 +19,6 @@ const LoginPage = () => {
         body: JSON.stringify(bodyJson),
       });
       const data = await response.json();
-      console.log(data);
 
       const token = data.token;
 

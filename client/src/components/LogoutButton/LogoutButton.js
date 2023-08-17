@@ -13,9 +13,9 @@ const LogoutButton = (props) => {
   };
 
   return (
-    <button className={classes.btn} onClick={logoutHandler}>
+    <div className={classes.btn} onClick={logoutHandler}>
       <span className={classes.text}>Logout</span>
-    </button>
+    </div>
   );
 };
 

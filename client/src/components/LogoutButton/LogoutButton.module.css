@@ -2,7 +2,8 @@
   cursor: pointer;
   padding: 7px;
   background-color: rgb(29, 29, 36);
-  border: none
+  border: none;
+  text-align: center;
 }
 .text {
   font-size: 16px;
