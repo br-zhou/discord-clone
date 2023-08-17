@@ -10,7 +10,7 @@
 /coverage
 
 # production
-/build
+/client/build
 
 # misc
 .DS_Store
@@ -25,3 +25,4 @@ yarn-error.log*
 
 #env
 .env
+.env.dev
