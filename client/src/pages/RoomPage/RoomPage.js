@@ -93,15 +93,17 @@ const RoomPage = () => {
   };
 
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.page_container}>
       <div className={classes.main_container}>
         <div className={classes.server_title}>
           <h3>{store.room}</h3>
         </div>
 
         <div className={classes.chat_container}>
-          <div>{messagesGenerator(messages)}</div>
-          <span ref={chatBottomRef}></span>
+          <div className={classes.msgs_wrapper}>
+            {messagesGenerator(messages)}
+            <span ref={chatBottomRef}></span>
+          </div>
         </div>
         <div>
           <ChatBox sendMessage={sendMessageHandler} />
