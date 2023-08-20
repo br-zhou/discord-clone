@@ -1,0 +1,9 @@
+CREATE DATABASE chat_app;
+USE chat_app;
+
+CREATE TABLE users (
+  id integer PRIMARY KEY AUTO_INCREMENT UNIQUE,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  created TIMESTAMP NOT NULL DEFAULT NOW()
+);
