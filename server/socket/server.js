@@ -1,8 +1,11 @@
 const { Server } = require("socket.io");
 const { v4: uuidv4 } = require("uuid");
-const { validateToken, getTokenUsername } = require("../util/webToken");
+const { getTokenUsername } = require("../util/webToken");
+const { RoomsManager } = require("../util/roomManager");
 
 const createSocket = (server) => {
+  const rooms = new RoomsManager();
+
   const io = new Server(server, {
     cors: {
       origin: "*",
@@ -18,8 +21,6 @@ const createSocket = (server) => {
       const username = getTokenUsername(token, id);
       idToUsername[id] = username;
 
-      console.log(`${username} joined room ${room}!`);
-
       if (callback) {
         const roomMembersSet = io.sockets.adapter.rooms.get(room);
         const roomMembersArr = Array.from(roomMembersSet || new Set());
@@ -28,7 +29,7 @@ const createSocket = (server) => {
         for (const userId of roomMembersArr) {
           usersData.push({ id: userId, username: idToUsername[userId] });
         }
-        callback(usersData);
+        callback({ users: usersData, messages: rooms.getMessageData(room) });
       }
 
       socket.join(room);
@@ -43,12 +44,14 @@ const createSocket = (server) => {
 
     socket.on("send-message", ({ message, room, token }) => {
       const username = getTokenUsername(token, id);
-
-      io.in(room).emit("new-message", {
+      const messageData = {
         msg: message,
         username,
         key: uuidv4(),
-      });
+      };
+
+      rooms.newMessage(room, messageData);
+      io.in(room).emit("new-message", messageData);
       console.log(`${username} sent new message in ${room}`);
     });
 

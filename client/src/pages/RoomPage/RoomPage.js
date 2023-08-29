@@ -81,7 +81,8 @@ const RoomPage = () => {
     }
 
     socket.emit("join-room", { room, token }, (response) => {
-      setUsers(response);
+      setUsers(response.users);
+      setMessages(response.messages);
     });
 
     setStore("room", room);
