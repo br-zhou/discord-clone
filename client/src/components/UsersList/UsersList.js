@@ -5,7 +5,13 @@ const UsersList = (props) => {
   const users = props.data;
 
   const usersGenerator = (users) => {
-    return users.map(({ id, username }) => <Member name={username} key={id} />);
+    try {
+      return users.map(({ id, username }) => (
+        <Member name={username} key={id} />
+      ));
+    } catch (err) {
+      return null;
+    }
   };
 
   return (
