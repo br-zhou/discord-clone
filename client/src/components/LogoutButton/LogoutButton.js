@@ -8,7 +8,7 @@ const LogoutButton = (props) => {
 
   const logoutHandler = () => {
     setStore("token", null);
-    localStorage.setItem("token", null);
+    localStorage.setItem("token", "");
     navigate("/");
   };
 

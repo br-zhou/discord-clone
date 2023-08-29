@@ -14,8 +14,8 @@ class Room {
   addMessage = (message) => {
     this.messageData.push(message);
     
-    // keeps message cap to 50
-    if (this.messageData.length > 50) {
+    // caps saved messages
+    if (this.messageData.length > 25) {
       this.messageData.shift();
     }
   };
